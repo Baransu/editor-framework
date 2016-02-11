@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="panel-element">
+
+  <style>
+
+  :host {
+    position: absolute;
+    /*display: block;*/
+    /*TODO: margin instead of border*/
+    border: 1px solid black;
+    box-sizing: border-box;
+    background-color: green;
+  }
+
+  .content {
+    /*width: 90%;
+    height: 90%;*/
+    /*padding: 5%;*/
+  }
+
+  </style>
+
+  <template>
+    <div class="content">
+      <content></content>
+    </div>
+  </template>
+
+  <script>
+
+    Polymer({
+
+        is: 'panel-element',
+
+        /*
+        layoutWidth: > 0 (default - 1)
+        layoutHeight: > 0 (default - 1)
+        static: Boolean (default - false)
+        resize: Boolean (default - true)
+
+        bottomTo: String (other object id) (default = '')
+        rightTo: String (other object id) (default = '')
+        */
+
+        properties: {
+
+          layoutWidth: {
+            type: Number,
+            value: 1,
+          },
+
+          layoutHeight: {
+            type: Number,
+            value: 1,
+          },
+
+          rightto: {
+            type: String
+          },
+
+          bottomto: {
+            type: String
+          },
+
+        },
+
+        ready: function() {
+          if(this.layoutWidth <= 0) this.layoutWidth = 1;
+          if(this.layoutHeight <= 0) this.layoutHeight = 1;
+
+          console.log(this.rightto, this.bottomto)
+
+          console.log('panel layout:' , this.layoutWidth, this.layoutHeight);
+
+        }
+
+        /* EVENTS
+        */
+
+    });
+
+  </script>
+</dom-module>

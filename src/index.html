@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="style.css" charset="utf-8">
+
+  </head>
+  <body>
+
+    <dynamic-layout
+      width="100%"
+      height="100%">
+
+      <panel-element
+        id="first"
+        layoutWidth="1"
+        layoutHeight="1">
+
+        im first panel
+
+      </panel-element>
+
+      <panel-element
+        id="second"
+        layoutWidth="1"
+        layoutHeight="1"
+        rightto="first">
+
+        im second panel
+
+      </panel-element>
+
+      <panel-element
+        id="third"
+        layoutWidth="1"
+        layoutHeight="1"
+        bottomto="first">
+
+        im third panel
+
+      </panel-element>
+
+      <panel-element
+        id="fourth"
+        layoutWidth="1"
+        layoutHeight="1"
+        rightto="second">
+
+        im fourth panel
+
+      </panel-element>
+
+      <panel-element
+        id="fifth"
+        layoutWidth="1"
+        layoutHeight="1"
+        rightto="fourth">
+
+        im fifth panel
+
+      </panel-element>
+
+
+      <panel-element
+        id="seventh"
+        layoutWidth="1"
+        layoutHeight="1"
+        bottomto="sixth">
+
+        im seventh panel
+
+      </panel-element>
+      
+      <panel-element
+        id="sixth"
+        layoutWidth="1"
+        layoutHeight="1"
+        bottomto="fifth">
+
+        im sixth panel
+
+      </panel-element>
+
+    </dynamic-layout>
+
+
+    <!-- scripts -->
+    <script src="../bower_components/webcomponentsjs/webcomponents.js" charset="utf-8"></script>
+
+    <!-- polymer elements -->
+    <link rel="import" href="elements/dynamic-layout.html">
+    <link rel="import" href="elements/panel-element.html">
+
+  </body>
+</html>

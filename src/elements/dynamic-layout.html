@@ -1,0 +1,224 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="panel-element.html">
+
+<dom-module id="dynamic-layout">
+
+  <style>
+
+    #content {
+      background-color: red;
+      display: flex;
+    }
+
+  </style>
+
+  <template>
+    <div id="content">
+      <content></content>
+    </div>
+  </template>
+
+  <script>
+
+    Polymer({
+
+        is: 'dynamic-layout',
+
+        /*
+        width: String default - 100%
+        height: String (default - 100%)
+        */
+
+        properties: {
+
+          width: {
+            type: String,
+            value: '100%'
+          },
+
+          height: {
+            type: String,
+            value: '100%'
+          },
+
+          _panels: {
+            type: Array,
+            value: [],
+            notify: true,
+            observer: 'panelsObserver'
+          }
+
+        },
+
+        ready: function() {
+          this.$.content.style.width = this.width;
+          this.$.content.style.height = this.height;
+          // var panels = this.$.contentpanel');
+          console.log(this.$.content.style.width, this.$.content.style.height)
+          this._panels = this.queryAllEffectiveChildren('panel-element');
+        },
+
+        panelsObserver: function() {
+          for(var i = 0; i < this._panels.length; i++) {
+            var panel = this._panels[i];
+
+            var right = panel.right = this.getPanelsRelation('rightto', panel.id);
+            var bottom = panel.bottom = this.getPanelsRelation('bottomto', panel.id);
+            var rightCount = panel.rightCount = this.getPanelsCount('rightto', panel.id);
+            var bottomCount = panel.bottomCount = this.getPanelsCount('bottomto', panel.id);
+
+            console.log(right, bottom, panel.id);
+          }
+
+          for(var i = 0; i < this._panels.length; i++) {
+            var panel = this._panels[i];
+
+            var right = panel.right = this.getPanelsRelation('rightto', panel.id);
+            var bottom = panel.bottom = this.getPanelsRelation('bottomto', panel.id);
+            var rightCount = panel.rightCount = this.getPanelsCount('rightto', panel.id);
+            var bottomCount = panel.bottomCount = this.getPanelsCount('bottomto', panel.id);
+
+            console.log(right, bottom, panel.id);
+          }
+
+          for(var i = 0; i < this._panels.length; i++) {
+            this.setWidth(this._panels[i]);
+          }
+
+          for(var i = 0; i < this._panels.length; i++) {
+            this.setOffset(this._panels[i]);
+          }
+
+          for(var i = 0; i < this._panels.length; i++) {
+            this.fixOffset(this._panels[i]);
+          }
+
+        },
+
+        setWidth: function(panel) {
+          var width = panel.rightCount;
+          for(var x = 0; x < panel.right.length; x++) {
+            if(panel.right[x].rightCount > width) {
+              width = panel.right[x].rightCount;
+            }
+          }
+
+          var height = panel.bottomCount;
+          for(var x = 0; x < panel.bottom.length; x++) {
+            if(panel.bottom[x].bottomCount > height) {
+              height = panel.bottom[x].bottomCount
+            }
+          }
+
+          panel.style.width = 100/(width + 1) + '%';
+          panel.style.height = 100/(height + 1) + '%';
+
+          console.log(width, height, panel.id);
+
+        },
+
+        fixWidth: function(panel) {
+
+          var minWidth = 0;
+          for(var x = 0; x < panel.bottom.length; x++) {
+            if(parseFloat(panel.bottom[x].style.width) < parseFloat(panel.bottom[minWidth].style.width)) {
+              minWidth = x;
+            }
+          }
+          if(panel.bottom.length > 0) panel.style.width = panel.bottom[minWidth].style.width;
+
+        },
+
+        setOffset: function(panel) {
+          // offset wdith and height
+          var offsetWidth = 0;
+          for(var x = 0; x < panel.right.length; x++) {
+            offsetWidth = this.getOffset(panel, 'right', 'width');
+          }
+
+          var offsetHeight = 0;
+          for(var x = 0; x < panel.bottom.length; x++) {
+            offsetHeight = this.getOffset(panel, 'bottom', 'height');
+          }
+
+          this.fixWidth(panel)
+
+          panel.style.left = offsetWidth + '%';
+          panel.style.top = offsetHeight + '%';
+
+          console.log(offsetWidth, offsetHeight, panel.id);
+          console.log(panel.style.left, panel.style.top, panel.style.width, panel.style.height, panel.id);
+
+        },
+
+        fixOffset: function(panel) {
+          var maxOffsetX = 0;
+          for(var x = 0; x < panel.bottom.length; x++) {
+            if(parseFloat(panel.bottom[x].style.left) > parseFloat(panel.bottom[maxOffsetX].style.left)) {
+              maxOffsetX = x;
+            }
+          }
+          if(panel.bottom.length > 0) panel.style.left = panel.bottom[maxOffsetX].style.left;
+        },
+
+        getOffset: function(panel, type, dir) {
+          var offset = 0;
+          for(var i = 0; i < panel[type].length; i++) {
+            this.fixWidth(panel);
+            this.fixOffset(panel);
+            offset += parseFloat(panel[type][i].style[dir]);
+          }
+          return offset;
+        },
+
+        getPanelsCount: function(type, id) {
+          var count = 0;
+          for(var i = 0; i < this._panels.length; i++) {
+            var panel = this._panels[i];
+            if(panel[type] == id) {
+              count += this.getPanelsCount(type, panel.id) + 1;
+            }
+          }
+          return count;
+        },
+
+        getPanelsRelation: function(type, id) {
+          var relations = [];
+          for(var i = 0; i < this._panels.length; i++) {
+            var panel = this._panels[i];
+            if(panel.id == id && typeof panel[type] !== 'undefined') {
+
+              var r = document.getElementById(panel[type])
+              relations.push(r);
+
+              var index = this._panels.indexOf(r)
+              var newIndex = index + 1;
+              // Remove the element from the array
+              if(newIndex > -1 && newIndex < this._panels.length) {
+                var removedElement = this._panels.splice(index, 1)[0]
+                // At "newIndex", remove 0 elements, insert the removed element
+                this._panels.splice(newIndex, 0, removedElement)
+              }
+
+              var rel = this.getPanelsRelation(type, panel[type]);
+              for(var x = 0; x < rel.length; x++) {
+                relations.push(rel[x]);
+              }
+            }
+          }
+          return relations
+        },
+
+
+        /* EVENTS
+
+          resize all
+          add new
+
+        */
+
+
+    });
+
+  </script>
+</dom-module>
