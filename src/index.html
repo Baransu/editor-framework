@@ -14,71 +14,81 @@
 
       <panel-element
         id="first"
-        layoutWidth="1"
-        layoutHeight="1">
+        layoutwidth="1"
+        layoutheight="1">
 
-        im first panel
+        i'm first panel
 
       </panel-element>
 
       <panel-element
         id="second"
-        layoutWidth="1"
-        layoutHeight="1"
+        layoutwidth="1"
+        layoutheight="1"
         rightto="first">
 
-        im second panel
+        i'm second panel
 
       </panel-element>
 
       <panel-element
         id="third"
-        layoutWidth="1"
-        layoutHeight="1"
+        layoutwidth="1"
+        layoutheight="1"
         bottomto="first">
 
-        im third panel
+        i'm third panel
+
+      </panel-element>
+
+      <panel-element
+        id="eight"
+        layoutwidth="1"
+        layoutheight="1"
+        bottomto="second"
+        rightto="third">
+
+        i'm eight panel
 
       </panel-element>
 
       <panel-element
         id="fourth"
-        layoutWidth="1"
-        layoutHeight="1"
+        layoutwidth="1"
+        layoutheight="1"
         rightto="second">
 
-        im fourth panel
+        i'm fourth panel
 
       </panel-element>
 
       <panel-element
         id="fifth"
-        layoutWidth="1"
-        layoutHeight="1"
+        layoutwidth="1"
+        layoutheight="1"
         rightto="fourth">
 
-        im fifth panel
+        i'm fifth panel
 
       </panel-element>
-
 
       <panel-element
         id="seventh"
-        layoutWidth="1"
-        layoutHeight="1"
+        layoutwidth="1"
+        layoutheight="1"
         bottomto="sixth">
 
-        im seventh panel
+        i'm seventh panel
 
       </panel-element>
-      
+
       <panel-element
         id="sixth"
-        layoutWidth="1"
-        layoutHeight="1"
+        layoutwidth="1"
+        layoutheight="1"
         bottomto="fifth">
 
-        im sixth panel
+        i'm sixth panel
 
       </panel-element>
 
@@ -86,7 +96,10 @@
 
 
     <!-- scripts -->
+
     <script src="../bower_components/webcomponentsjs/webcomponents.js" charset="utf-8"></script>
+
+    <!-- <script type="text/javascript">window.$ = jQuery;</script> -->
 
     <!-- polymer elements -->
     <link rel="import" href="elements/dynamic-layout.html">

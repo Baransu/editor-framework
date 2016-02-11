@@ -1,2 +1,2 @@
 # editor-framework
-Editor framework for Amble Engine Editor
+[WIP] Editor framework for Amble Engine Editor
